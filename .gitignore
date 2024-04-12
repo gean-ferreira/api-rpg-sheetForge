@@ -1,0 +1,8 @@
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# Local env files
+.env
+.env.*
+!.env.example
