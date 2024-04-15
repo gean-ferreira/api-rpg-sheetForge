@@ -1,5 +1,9 @@
 # Main file
+from fastapi import FastAPI
 from app.core.database import database
+
+app = FastAPI()
+
 
 @app.on_event("startup")
 async def startup():
