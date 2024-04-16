@@ -3,6 +3,10 @@ Este módulo define os modelos de dados utilizados para representar usuários no
 """
 
 from pydantic import BaseModel, EmailStr
+from typing import List
+
+from app.models.response_models import ResponseWithDataModel
+
 
 class UserBaseModel(BaseModel):
     username: str
@@ -20,4 +24,10 @@ class UserOutModel(UserBaseModel):
 class UserUpdateModel(BaseModel):
     username: str
 
+
+#
+# Respostas
+#
+class UsersListResponseModel(ResponseWithDataModel[List[UserOutModel]]):
+    pass
 
