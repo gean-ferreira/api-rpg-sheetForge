@@ -3,6 +3,7 @@ Este módulo contém a lógica de serviço para operações relacionadas aos usu
 """
 
 from fastapi import HTTPException, status
+from app.models.user_models import UserInModel, UserOutModel
 from app.repositories.user_repository import UserRepository
 
 
@@ -23,4 +24,8 @@ class UserService:
         users_records = await self.user_repository.get_users()
         users = [UserOutModel(**user) for user in users_records]
         return users
+
+    async def get_user_by_id(self, user_id: int):
+        db_user = await self._verify_user_exists(user_id)
+        return UserOutModel(**db_user)
 
