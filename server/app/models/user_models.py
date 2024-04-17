@@ -31,3 +31,6 @@ class UserUpdateModel(BaseModel):
 class UsersListResponseModel(ResponseWithDataModel[List[UserOutModel]]):
     pass
 
+
+class UserOutDataModel(ResponseWithDataModel[UserOutModel]):
+    pass
