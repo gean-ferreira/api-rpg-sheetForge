@@ -130,3 +130,32 @@ async def update_user_endpoint(user_id: int, req: UserUpdateModel):
     return BaseResponseModel(message=message["message"])
 
 
+@router.delete(
+    "/users/{user_id}/",
+    responses={
+        200: {
+            "model": BaseResponseModel,
+            "description": "Confirmação de que o usuário foi excluído com sucesso.",
+        },
+        404: {
+            "model": DetailErrorResponse,
+            "description": "Retorna uma mensagem indicando que o usuário não foi encontrado.",
+        },
+        422: {
+            "model": ErrorResponseModel,
+            "description": "Erro de validação na entrada de dados.",
+        },
+    },
+    summary="Excluir Usuário",
+    description="""
+    Exclui um usuário específico da plataforma, identificado pelo seu ID único.
+    
+    Essa operação é irreversível. 
+    Uma vez que um usuário é excluído, todos os dados associados a esse usuário serão permanentemente removidos. 
+    Utilize essa operação com cuidado.
+    """,
+    tags=["Usuários"],
+)
+async def delete_user(user_id: int):
+    message = await user_service.delete_user(user_id)
+    return BaseResponseModel(message=message["message"])
