@@ -5,6 +5,7 @@ Este módulo contém a lógica de serviço para operações relacionadas aos usu
 from fastapi import HTTPException, status
 from app.models.user_models import UserInModel, UserOutModel
 from app.repositories.user_repository import UserRepository
+from app.security.security import get_password_hash
 
 
 class UserService:
@@ -45,4 +46,14 @@ class UserService:
     async def get_user_by_id(self, user_id: int):
         db_user = await self._verify_user_exists(user_id)
         return UserOutModel(**db_user)
+
+    async def create_user(self, user: UserInModel):
+        user.password = await get_password_hash(user.password)
+        await self._verify_username_exists(user.username)
+        await self._verify_email_exists(user.email)
+        db_user = await self.user_repository.create_user(user)
+        user_data = UserOutModel(
+            user_id=db_user, username=user.username, email=user.email
+        )
+        return user_data
 
