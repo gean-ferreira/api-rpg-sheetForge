@@ -1,4 +1,3 @@
-from fastapi import APIRouter
 from fastapi import APIRouter, status
 from app.models.error_models import DetailErrorResponse, ErrorResponseModel
 from app.models.response_models import BaseResponseModel
@@ -7,6 +6,8 @@ from app.models.user_models import (
     UserOutDataModel,
     UsersListResponseModel,
 )
+from app.repositories.user_repository import UserRepository
+from app.services.user_service import UserService
 
 router = APIRouter()
 user_service = UserService(UserRepository())
