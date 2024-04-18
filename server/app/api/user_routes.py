@@ -4,6 +4,7 @@ from app.models.response_models import BaseResponseModel
 from app.models.user_models import (
     UserInModel,
     UserOutDataModel,
+    UserUpdateModel,
     UsersListResponseModel,
 )
 from app.repositories.user_repository import UserRepository
@@ -94,5 +95,38 @@ async def read_user_data(user_id: int):
 async def create_user(user: UserInModel):
     db_user = await user_service.create_user(user)
     return UserOutDataModel(message="Usuário cadastrado com sucesso", data=db_user)
+
+
+@router.put(
+    "/users/{user_id}/",
+    responses={
+        200: {
+            "model": BaseResponseModel,
+            "description": "Usuário atualizado com sucesso.",
+        },
+        400: {
+            "model": DetailErrorResponse,
+            "description": "Retorna uma mensagem indicando que o usuário já existe.",
+        },
+        404: {
+            "model": DetailErrorResponse,
+            "description": "Retorna uma mensagem indicando que o usuário não foi encontrado.",
+        },
+        422: {
+            "model": ErrorResponseModel,
+            "description": "Erro de validação na entrada de dados.",
+        },
+    },
+    summary="Atualiza o nome de usuário",
+    description="""
+    Atualiza o username de um usuário existente na plataforma, identificado pelo seu ID único.
+
+    É necessário fornecer um novo username que ainda não esteja em uso por outro usuário.
+    """,
+    tags=["Usuários"],
+)
+async def update_user_endpoint(user_id: int, req: UserUpdateModel):
+    message = await user_service.update_user(user_id, req.username)
+    return BaseResponseModel(message=message["message"])
 
 
