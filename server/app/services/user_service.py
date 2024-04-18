@@ -63,3 +63,7 @@ class UserService:
         await self.user_repository.update_user(user_id, username)
         return {"message": "Username atualizado com sucesso"}
 
+    async def delete_user(self, user_id: int):
+        await self._verify_user_exists(user_id)
+        await self.user_repository.delete_user(user_id)
+        return {"message": "Usuário deletado com sucesso"}
