@@ -57,3 +57,9 @@ class UserService:
         )
         return user_data
 
+    async def update_user(self, user_id: int, username: str):
+        await self._verify_user_exists(user_id)
+        await self._verify_username_exists(username)
+        await self.user_repository.update_user(user_id, username)
+        return {"message": "Username atualizado com sucesso"}
+
