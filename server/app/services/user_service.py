@@ -28,6 +28,14 @@ class UserService:
             )
         return db_user
 
+    async def _verify_email_exists(self, email: str):
+        db_user = await self.user_repository.get_user_by_email(email)
+        if db_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="E-mail já cadastrado",
+            )
+        return db_user
 
     async def get_users(self):
         users_records = await self.user_repository.get_users()
