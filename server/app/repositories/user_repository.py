@@ -19,6 +19,10 @@ class UserRepository:
         query = "SELECT * FROM RPG.Users WHERE username = :username"
         return await database.fetch_one(query, {"username": username})
 
+    async def get_user_by_email(self, email: str):
+        query = "SELECT * FROM RPG.Users WHERE email = :email"
+        return await database.fetch_one(query, {"email": email})
+
     async def create_user(self, user: UserInModel):
         query = "INSERT INTO RPG.Users (username, email, password_hash) VALUES (:username, :email, :hashed_password);"
         return await database.execute(
