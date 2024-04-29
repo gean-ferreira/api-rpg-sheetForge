@@ -6,3 +6,6 @@ from app.core.database import database
 
 
 class WeaponRepository:
+    async def get_weapons(self):
+        query = "SELECT * FROM RPG.Weapons;"
+        return await database.fetch_all(query)
