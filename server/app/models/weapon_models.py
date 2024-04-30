@@ -26,9 +26,9 @@ class WeaponBaseModel(BaseModel):
     name: str
     damage: str
     critical: str
-    ability_modifier: str
+    ability_modifier: AbilityModifier
     attack_range: str
-    damage_type: str
+    damage_type: WeaponType
 
 
 #
