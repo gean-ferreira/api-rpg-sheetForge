@@ -36,3 +36,7 @@ class WeaponBaseModel(BaseModel):
 #
 class WeaponsListResponseModel(ResponseWithDataModel[List[WeaponBaseModel]]):
     pass
+
+
+class WeaponOutDataModel(ResponseWithDataModel[WeaponBaseModel]):
+    pass
