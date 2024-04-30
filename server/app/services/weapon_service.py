@@ -23,3 +23,7 @@ class WeaponService:
         weapons_records = await self.weapon_repository.get_weapons()
         weapons = [WeaponBaseModel(**weapon) for weapon in weapons_records]
         return weapons
+
+    async def get_weapon_by_id(self, weapon_id: int):
+        db_weapon = await self._verify_weapon_exists(weapon_id)
+        return WeaponBaseModel(**db_weapon)
