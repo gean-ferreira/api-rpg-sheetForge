@@ -13,6 +13,10 @@ class WeaponService:
 
     async def _verify_weapon_exists(self, weapon_id: int):
         db_weapon = await self.weapon_repository.get_weapon_by_id(weapon_id)
+        if db_weapon is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Arma não encontrada"
+            )
         return db_weapon
 
     async def get_weapons(self):
