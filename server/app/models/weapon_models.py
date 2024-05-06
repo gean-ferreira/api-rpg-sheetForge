@@ -2,7 +2,7 @@
 Este módulo define os modelos de dados para armas utilizadas no sistema de RPG
 """
 
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
 
@@ -26,7 +26,7 @@ class WeaponBaseModel(BaseModel):
     damage: str
     critical: str
     ability_modifier: AbilityModifier
-    attack_range: str
+    attack_range: Optional[str] = None
     damage_type: WeaponType
 
 
