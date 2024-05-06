@@ -61,3 +61,31 @@ async def read_weapon_data(weapon_id: int):
     return WeaponOutDataModel(
         message="Dados da arma encontrados com sucesso", data=db_weapon
     )
+
+
+@router.post(
+    "/weapons/",
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        201: {
+            "model": WeaponOutDataModel,
+            "description": "Arma criada com sucesso. Retorna os detalhes da nova arma.",
+        },
+        422: {
+            "model": ErrorResponseModel,
+            "description": "Erro de validação na entrada de dados. Pode ocorrer por dados formatados incorretamente, como um tipo de dano inválido.",
+        },
+    },
+    summary="Cria uma Nova Arma",
+    description="""
+    Registra uma nova arma no sistema.
+
+    Para criar uma arma, é necessário fornecer detalhes como nome, tipo de dano, alcance de ataque (opcional), entre outros atributos relevantes.
+
+    Em caso de sucesso, retorna os detalhes da arma criada. Se houver dados duplicados, como de um nome já utilizado, um erro será retornado.
+    """,
+    tags=["Armas"],
+)
+async def create_weapon(weapon: WeaponBaseModel):
+    db_weapon = await weapon_service.create_weapon(weapon)
+    return WeaponOutDataModel(message="Arma cadastrada com sucesso", data=db_weapon)
