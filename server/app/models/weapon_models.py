@@ -22,7 +22,6 @@ class WeaponType(Enum):
 
 
 class WeaponBaseModel(BaseModel):
-    weapon_id: int
     name: str
     damage: str
     critical: str
