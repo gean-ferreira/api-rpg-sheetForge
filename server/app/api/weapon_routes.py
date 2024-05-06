@@ -1,7 +1,11 @@
 from fastapi import APIRouter, status
 from app.repositories.weapon_repository import WeaponRepository
 from app.services.weapon_service import WeaponService
-from app.models.weapon_models import WeaponOutDataModel, WeaponsListResponseModel
+from app.models.weapon_models import (
+    WeaponBaseModel,
+    WeaponOutDataModel,
+    WeaponsListResponseModel,
+)
 from app.models.error_models import DetailErrorResponse, ErrorResponseModel
 
 router = APIRouter()

@@ -37,9 +37,9 @@ class WeaponOutModel(WeaponBaseModel):
 #
 # Respostas
 #
-class WeaponsListResponseModel(ResponseWithDataModel[List[WeaponBaseModel]]):
+class WeaponsListResponseModel(ResponseWithDataModel[List[WeaponOutModel]]):
     pass
 
 
-class WeaponOutDataModel(ResponseWithDataModel[WeaponBaseModel]):
+class WeaponOutDataModel(ResponseWithDataModel[WeaponOutModel]):
     pass

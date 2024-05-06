@@ -4,7 +4,7 @@ Este módulo contém a lógica de serviço para operações relacionadas às arm
 
 from fastapi import HTTPException, status
 from app.repositories.weapon_repository import WeaponRepository
-from app.models.weapon_models import WeaponBaseModel
+from app.models.weapon_models import WeaponBaseModel, WeaponOutModel
 
 
 class WeaponService:
@@ -21,9 +21,10 @@ class WeaponService:
 
     async def get_weapons(self):
         weapons_records = await self.weapon_repository.get_weapons()
-        weapons = [WeaponBaseModel(**weapon) for weapon in weapons_records]
+        weapons = [WeaponOutModel(**weapon) for weapon in weapons_records]
         return weapons
 
     async def get_weapon_by_id(self, weapon_id: int):
         db_weapon = await self._verify_weapon_exists(weapon_id)
-        return WeaponBaseModel(**db_weapon)
+        return WeaponOutModel(**db_weapon)
+
