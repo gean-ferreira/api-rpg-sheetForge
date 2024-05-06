@@ -30,6 +30,10 @@ class WeaponBaseModel(BaseModel):
     damage_type: WeaponType
 
 
+class WeaponOutModel(WeaponBaseModel):
+    weapon_id: int
+
+
 #
 # Respostas
 #
