@@ -28,3 +28,15 @@ class WeaponService:
         db_weapon = await self._verify_weapon_exists(weapon_id)
         return WeaponOutModel(**db_weapon)
 
+    async def create_weapon(self, weapon: WeaponBaseModel):
+        db_weapon = await self.weapon_repository.create_weapon(weapon)
+        weapon_data = WeaponOutModel(
+            weapon_id=db_weapon,
+            name=weapon.name,
+            damage=weapon.damage,
+            critical=weapon.critical,
+            ability_modifier=weapon.ability_modifier,
+            attack_range=weapon.attack_range,
+            damage_type=weapon.damage_type,
+        )
+        return weapon_data
