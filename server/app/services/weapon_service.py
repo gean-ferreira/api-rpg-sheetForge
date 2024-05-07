@@ -56,3 +56,8 @@ class WeaponService:
         await self._verify_name_exists(weapon.name)
         await self.weapon_repository.update_weapon(weapon_id, weapon)
         return {"message": "Arma atualizada com sucesso"}
+
+    async def delete_weapon(self, weapon_id: int):
+        await self._verify_weapon_exists(weapon_id)
+        await self.weapon_repository.delete_weapon(weapon_id)
+        return {"message": "Arma deletada com sucesso"}

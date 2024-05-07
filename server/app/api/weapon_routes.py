@@ -127,3 +127,34 @@ async def create_weapon(weapon: WeaponBaseModel):
 async def update_weapon(weapon_id: int, req: WeaponBaseModel):
     message = await weapon_service.update_weapon(weapon_id, req)
     return BaseResponseModel(message=message["message"])
+
+
+@router.delete(
+    "/weapons/{user_id}/",
+    responses={
+        200: {
+            "model": BaseResponseModel,
+            "description": "Confirmação de que a arma foi excluída com sucesso.",
+        },
+        404: {
+            "model": DetailErrorResponse,
+            "description": "Retorna uma mensagem indicando que a arma não foi encontrada.",
+        },
+        422: {
+            "model": ErrorResponseModel,
+            "description": "Erro de validação na entrada de dados. Pode ocorrer por tentativas de deletar uma arma com um ID inválido.",
+        },
+    },
+    summary="Excluir Arma",
+    description="""
+    Exclui uma arma específica do sistema, identificada pelo seu ID único.
+    
+    Essa operação é irreversível. 
+    Uma vez que uma arma é excluída, todos os dados associados a essa arma serão permanentemente removidos. 
+    Utilize essa operação com cuidado.
+    """,
+    tags=["Armas"],
+)
+async def delete_user(weapon_id: int):
+    message = await weapon_service.delete_weapon(weapon_id)
+    return BaseResponseModel(message=message["message"])

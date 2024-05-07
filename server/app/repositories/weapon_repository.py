@@ -59,3 +59,7 @@ class WeaponRepository:
                 "damage_type": weapon.damage_type.value,
             },
         )
+
+    async def delete_weapon(self, weapon_id: int):
+        query = "DELETE FROM RPG.Weapons WHERE weapon_id = :id;"
+        return await database.execute(query, {"id": weapon_id})
