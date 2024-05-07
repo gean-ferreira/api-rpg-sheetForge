@@ -50,3 +50,9 @@ class WeaponService:
             damage_type=weapon.damage_type,
         )
         return weapon_data
+
+    async def update_weapon(self, weapon_id: int, weapon: WeaponBaseModel):
+        await self._verify_weapon_exists(weapon_id)
+        await self._verify_name_exists(weapon.name)
+        await self.weapon_repository.update_weapon(weapon_id, weapon)
+        return {"message": "Arma atualizada com sucesso"}
