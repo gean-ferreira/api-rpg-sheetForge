@@ -35,3 +35,27 @@ class WeaponRepository:
                 "damage_type": weapon.damage_type.value,
             },
         )
+
+    async def update_weapon(self, weapon_id: int, weapon: WeaponBaseModel):
+        query = """
+        UPDATE RPG.Weapons 
+        SET name = :name, 
+            damage = :damage, 
+            critical = :critical, 
+            ability_modifier = :ability_modifier, 
+            attack_range = :attack_range, 
+            damage_type = :damage_type 
+        WHERE weapon_id = :id;
+        """
+        return await database.execute(
+            query,
+            {
+                "id": weapon_id,
+                "name": weapon.name,
+                "damage": weapon.damage,
+                "critical": weapon.critical,
+                "ability_modifier": weapon.ability_modifier.value,
+                "attack_range": weapon.attack_range,
+                "damage_type": weapon.damage_type.value,
+            },
+        )
