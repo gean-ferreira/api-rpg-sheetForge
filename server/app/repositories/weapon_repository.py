@@ -20,7 +20,10 @@ class WeaponRepository:
         return await database.fetch_one(query, {"name": name})
 
     async def create_weapon(self, weapon: WeaponBaseModel):
-        query = "INSERT INTO RPG.Weapons (name, damage, critical, ability_modifier, attack_range, damage_type) VALUES (:name, :damage, :critical, :ability_modifier, :attack_range, :damage_type);"
+        query = """
+        INSERT INTO RPG.Weapons (name, damage, critical, ability_modifier, attack_range, damage_type) 
+        VALUES (:name, :damage, :critical, :ability_modifier, :attack_range, :damage_type);
+        """
         return await database.execute(
             query,
             {
