@@ -71,6 +71,10 @@ async def read_weapon_data(weapon_id: int):
             "model": WeaponOutDataModel,
             "description": "Arma criada com sucesso. Retorna os detalhes da nova arma.",
         },
+        400: {
+            "model": DetailErrorResponse,
+            "description": "Falha na criação da arma devido à tentativa de uso de um nome já existente.",
+        },
         422: {
             "model": ErrorResponseModel,
             "description": "Erro de validação na entrada de dados. Pode ocorrer por dados formatados incorretamente, como um tipo de dano inválido.",

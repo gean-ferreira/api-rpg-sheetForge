@@ -15,6 +15,10 @@ class WeaponRepository:
         query = "SELECT * FROM RPG.Weapons WHERE weapon_id = :id;"
         return await database.fetch_one(query, {"id": weapon_id})
 
+    async def get_weapon_by_name(self, name: str):
+        query = "SELECT * FROM RPG.Weapons WHERE name = :name"
+        return await database.fetch_one(query, {"name": name})
+
     async def create_weapon(self, weapon: WeaponBaseModel):
         query = "INSERT INTO RPG.Weapons (name, damage, critical, ability_modifier, attack_range, damage_type) VALUES (:name, :damage, :critical, :ability_modifier, :attack_range, :damage_type);"
         return await database.execute(

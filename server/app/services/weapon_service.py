@@ -19,6 +19,15 @@ class WeaponService:
             )
         return db_weapon
 
+    async def _verify_name_exists(self, name: str):
+        db_weapon = await self.weapon_repository.get_weapon_by_name(name)
+        if db_weapon:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"A arma com o nome '{name}' já está cadastrada",
+            )
+        return db_weapon
+
     async def get_weapons(self):
         weapons_records = await self.weapon_repository.get_weapons()
         weapons = [WeaponOutModel(**weapon) for weapon in weapons_records]
@@ -29,6 +38,7 @@ class WeaponService:
         return WeaponOutModel(**db_weapon)
 
     async def create_weapon(self, weapon: WeaponBaseModel):
+        await self._verify_name_exists(weapon.name)
         db_weapon = await self.weapon_repository.create_weapon(weapon)
         weapon_data = WeaponOutModel(
             weapon_id=db_weapon,
