@@ -7,6 +7,7 @@ from app.models.weapon_models import (
     WeaponsListResponseModel,
 )
 from app.models.error_models import DetailErrorResponse, ErrorResponseModel
+from app.models.response_models import BaseResponseModel
 
 router = APIRouter()
 weapon_service = WeaponService(WeaponRepository())
@@ -93,3 +94,36 @@ async def read_weapon_data(weapon_id: int):
 async def create_weapon(weapon: WeaponBaseModel):
     db_weapon = await weapon_service.create_weapon(weapon)
     return WeaponOutDataModel(message="Arma cadastrada com sucesso", data=db_weapon)
+
+
+@router.put(
+    "/weapons/{weapon_id}/",
+    responses={
+        200: {
+            "model": BaseResponseModel,
+            "description": "Arma atualizada com sucesso. Retorna a confirmação da atualização.",
+        },
+        400: {
+            "model": DetailErrorResponse,
+            "description": "Falha na atualização devido a dados duplicados, como um nome de arma já existente.",
+        },
+        404: {
+            "model": DetailErrorResponse,
+            "description": "Retorna uma mensagem indicando que a arma não foi encontrada.",
+        },
+        422: {
+            "model": ErrorResponseModel,
+            "description": "Erro de validação na entrada de dados. Pode ocorrer por dados formatados incorretamente ou faltantes.",
+        },
+    },
+    summary="Atualiza os dados de uma arma",
+    description="""
+    Atualiza detalhes de uma arma existente no sistema, identificada pelo seu ID único.
+
+    É necessário fornecer os novos dados da arma que deseja atualizar. Se a arma não for encontrada, um erro será retornado.
+    """,
+    tags=["Armas"],
+)
+async def update_weapon(weapon_id: int, req: WeaponBaseModel):
+    message = await weapon_service.update_weapon(weapon_id, req)
+    return BaseResponseModel(message=message["message"])
