@@ -11,7 +11,7 @@ auth_service = AuthService(UserRepository())
 
 
 @router.post(
-    # "/auth/login/",
+    "/auth/login/",
     responses={
         200: {
             "model": ResponseWithDataModel,
