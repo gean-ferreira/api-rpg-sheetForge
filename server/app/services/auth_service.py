@@ -5,6 +5,8 @@ Este módulo contém a lógica de serviço para operações relacionadas a auten
 from fastapi import HTTPException, status
 from app.repositories.user_repository import UserRepository
 from app.security.security import verify_password
+from app.security.auth_handler import create_access_token
+
 
 class AuthService:
     def __init__(self, user_repository: UserRepository):
@@ -18,3 +20,7 @@ class AuthService:
                 detail="Usuário e/ou senha inválidos",
             )
         return db_user
+
+    async def authenticate_and_generate_token(self, username: str, password: str):
+        user = await self._authenticate_user(username, password)
+        return create_access_token(user_id=user.user_id)
