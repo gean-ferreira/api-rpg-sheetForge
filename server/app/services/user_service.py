@@ -50,7 +50,7 @@ class UserService:
     async def create_user(self, user: UserInModel):
         await self._verify_username_exists(user.username)
         await self._verify_email_exists(user.email)
-        user.password = await get_password_hash(user.password)
+        user.password = get_password_hash(user.password)
         db_user = await self.user_repository.create_user(user)
         user_data = UserOutModel(
             user_id=db_user, username=user.username, email=user.email
