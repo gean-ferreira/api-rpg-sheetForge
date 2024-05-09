@@ -1,13 +1,9 @@
-from passlib.context import CryptContext
 import bcrypt
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 # Criptografa a senha
-async def get_password_hash(password):
-    return pwd_context.hash(password)
-
+def get_password_hash(password):
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 
 # Compara senha com a senha criptografada
