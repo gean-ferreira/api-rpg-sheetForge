@@ -43,7 +43,7 @@ async def get_users():
         },
         401: {
             "model": DetailErrorResponse,
-            "description": "O error é retornado caso a requisição falhou porque o token de acesso é inválido ou expirou.",
+            "description": "O error é retornado caso a requisição falhou porque o token de acesso é inválido, expirou ou não foi fornecido.",
         },
         403: {
             "model": DetailErrorResponse,
