@@ -37,7 +37,7 @@ async def login(response: Response, form_data: LoginFormData = Depends()):
     access_token, expire = await auth_service.authenticate_and_generate_token(
         form_data.username, form_data.password
     )
-    max_age = int((expire - datetime.now()).total_seconds())
+    max_age = int((expire - datetime.utcnow()).total_seconds())
     response.set_cookie(
         key="access_token",
         value=access_token,
