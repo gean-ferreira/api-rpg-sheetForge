@@ -41,21 +41,28 @@ async def get_users():
             "model": UserOutDataModel,
             "description": "Os detalhes do usuário, incluindo ID, nome de usuário e e-mail, são retornados na resposta.",
         },
+        401: {
+            "model": DetailErrorResponse,
+            "description": "O error é retornado caso a requisição falhou porque o token de acesso é inválido ou expirou.",
+        },
+        403: {
+            "model": DetailErrorResponse,
+            "description": "Caso o usuário não tem permissão para acessar esses dados, como tentar acessar informações de outro usuário.",
+        },
         404: {
             "model": DetailErrorResponse,
-            "description": "Retorna uma mensagem indicando que o usuário não foi encontrado.",
+            "description": "Retorna uma mensagem indicando que o usuário com o ID especificado não foi encontrado no sistema.",
         },
         422: {
             "model": ErrorResponseModel,
-            "description": "Erro de validação na entrada de dados.",
+            "description": "Erro de validação na entrada de dados. Pode ocorrer por dados formatados incorretamente, como um ID inválido.",
         },
     },
     summary="Busca Dados do Usuário",
     description="""
     Busca um usuário específico pela sua identificação única (ID).
 
-    Retorna os dados do usuário, incluindo ID, nome de usuário e e-mail, caso encontrado.
-    Caso contrário, retorna um erro 404 indicando que o usuário não foi encontrado.
+    Esta operação requer que o usuário esteja autenticado e tenha permissão para acessar seus próprios dados. Retorna os dados do usuário, incluindo ID, nome de usuário e e-mail, caso encontrado. Em caso de erros de autenticação ou permissão, retorna 401 ou 403, respectivamente. Se o usuário não for encontrado, retorna um erro 404.
     """,
     tags=["Usuários"],
 )
