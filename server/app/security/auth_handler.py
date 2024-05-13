@@ -14,7 +14,7 @@ if not SECRET_KEY:
 ALGORITHM = "HS256"
 
 
-def create_access_token(user_id: dict, expires_delta: timedelta = None):
+def create_access_token(user_id: str, expires_delta: timedelta = None):
     to_encode = {"sub": user_id}
     if expires_delta:
         expire = datetime.utcnow() + expires_delta

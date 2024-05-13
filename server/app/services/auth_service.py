@@ -23,4 +23,4 @@ class AuthService:
 
     async def authenticate_and_generate_token(self, username: str, password: str):
         user = await self._authenticate_user(username, password)
-        return create_access_token(user_id=user.user_id)
+        return create_access_token(str(user.user_id))
