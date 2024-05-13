@@ -27,6 +27,13 @@ def create_access_token(user_id: str, expires_delta: timedelta = None):
 
 
 def decode_access_token(token: str):
+    if not token:
+        raise HTTPException(
+            status_code=401,
+            detail="Token não fornecido",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         if "sub" not in payload or payload["sub"] is None:
