@@ -16,3 +16,14 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     return int(user_id)
+
+
+# Função para verificar se o usuário pode acessar uma rota específica
+async def get_user_if_allowed(
+    user_id: int = Path(...), current_user_id: dict = Depends(get_current_user)
+):
+    # Verifica se o user_id do token é igual ao user_id passado na URL
+    if current_user_id != user_id:
+        raise HTTPException(
+            status_code=403, detail="Você não tem permissão para acessar este recurso"
+        )

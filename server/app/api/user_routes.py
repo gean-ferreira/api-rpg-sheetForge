@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
 from app.models.error_models import DetailErrorResponse, ErrorResponseModel
 from app.models.response_models import BaseResponseModel
 from app.models.user_models import (
@@ -9,6 +9,7 @@ from app.models.user_models import (
 )
 from app.repositories.user_repository import UserRepository
 from app.services.user_service import UserService
+from app.security.dependencies import get_user_if_allowed
 
 router = APIRouter()
 user_service = UserService(UserRepository())
@@ -58,7 +59,7 @@ async def get_users():
     """,
     tags=["Usuários"],
 )
-async def read_user_data(user_id: int):
+async def read_user_data(user_id: int, _=Depends(get_user_if_allowed)):
     db_user = await user_service.get_user_by_id(user_id)
     return UserOutDataModel(
         message="Dados do usuário encontrados com sucesso", data=db_user
